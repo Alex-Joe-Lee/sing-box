@@ -1,5 +1,3 @@
-//go:build with_quic
-
 package inbound
 
 import (
@@ -7,13 +5,13 @@ import (
 	"net"
 	"time"
 
+	"github.com/Alex-Joe-Lee/sing-quic/hysteria"
 	"github.com/sagernet/sing-box/adapter"
 	"github.com/sagernet/sing-box/common/humanize"
 	"github.com/sagernet/sing-box/common/tls"
 	C "github.com/sagernet/sing-box/constant"
 	"github.com/sagernet/sing-box/log"
 	"github.com/sagernet/sing-box/option"
-	"github.com/sagernet/sing-quic/hysteria"
 	"github.com/sagernet/sing/common"
 	"github.com/sagernet/sing/common/auth"
 	E "github.com/sagernet/sing/common/exceptions"
