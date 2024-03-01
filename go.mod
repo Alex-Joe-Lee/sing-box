@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	berty.tech/go-libtor v1.0.385
-	github.com/Alex-Joe-Lee/sing-quic v0.2.0
+	github.com/Alex-Joe-Lee/sing-quic v0.2.1
 	github.com/caddyserver/certmagic v0.20.0
 	github.com/cloudflare/circl v1.3.7
 	github.com/cretz/bine v0.2.0

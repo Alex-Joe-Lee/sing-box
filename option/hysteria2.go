@@ -4,8 +4,6 @@ type Hysteria2InboundOptions struct {
 	ListenOptions
 	UpMbps                int             `json:"up_mbps,omitempty"`
 	DownMbps              int             `json:"down_mbps,omitempty"`
-	HopPorts              string          `json:"hop_ports,omitempty"`
-	HopInterval           int             `json:"hop_interval,omitempty"`
 	Obfs                  *Hysteria2Obfs  `json:"obfs,omitempty"`
 	Users                 []Hysteria2User `json:"users,omitempty"`
 	IgnoreClientBandwidth bool            `json:"ignore_client_bandwidth,omitempty"`
