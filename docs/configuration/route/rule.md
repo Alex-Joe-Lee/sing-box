@@ -1,3 +1,7 @@
+---
+icon: material/alert-decagram
+---
+
 !!! quote "Changes in sing-box 1.8.0"
 
     :material-plus: [rule_set](#rule_set)  
@@ -105,7 +109,6 @@
           "geoip-cn",
           "geosite-cn"
         ],
-        "rule_set_ipcidr_match_source": false,
         "invert": false,
         "outbound": "direct"
       },
@@ -281,7 +284,7 @@ Match Clash mode.
 
 !!! quote ""
 
-    Only supported in graphical clients on Android and Apple platforms.
+    Only supported in graphical clients on Android and iOS.
 
 Match WiFi SSID.
 
@@ -289,7 +292,7 @@ Match WiFi SSID.
 
 !!! quote ""
 
-    Only supported in graphical clients on Android and Apple platforms.
+    Only supported in graphical clients on Android and iOS.
 
 Match WiFi BSSID.
 

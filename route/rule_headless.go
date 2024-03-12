@@ -80,11 +80,11 @@ func NewDefaultHeadlessRule(router adapter.Router, options option.DefaultHeadles
 		if err != nil {
 			return nil, E.Cause(err, "ipcidr")
 		}
-		rule.destinationIPCIDRItems = append(rule.destinationIPCIDRItems, item)
+		rule.destinationAddressItems = append(rule.destinationAddressItems, item)
 		rule.allItems = append(rule.allItems, item)
 	} else if options.IPSet != nil {
 		item := NewRawIPCIDRItem(false, options.IPSet)
-		rule.destinationIPCIDRItems = append(rule.destinationIPCIDRItems, item)
+		rule.destinationAddressItems = append(rule.destinationAddressItems, item)
 		rule.allItems = append(rule.allItems, item)
 	}
 	if len(options.SourcePort) > 0 {

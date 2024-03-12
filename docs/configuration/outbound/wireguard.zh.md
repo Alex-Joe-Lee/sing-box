@@ -1,3 +1,7 @@
+---
+icon: material/new-box
+---
+
 !!! quote "sing-box 1.8.0 中的更改"
 
     :material-plus: [gso](#gso)  

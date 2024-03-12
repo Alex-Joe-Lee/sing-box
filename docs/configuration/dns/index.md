@@ -1,11 +1,3 @@
----
-icon: material/new-box
----
-
-!!! quote "Changes in sing-box 1.9.0"
-
-    :material-plus: [client_subnet](#client_subnet)
-
 # DNS
 
 ### Structure
@@ -21,7 +13,6 @@ icon: material/new-box
     "disable_expire": false,
     "independent_cache": false,
     "reverse_mapping": false,
-    "client_subnet": "",
     "fakeip": {}
   }
 }
@@ -30,8 +21,8 @@ icon: material/new-box
 
 ### Fields
 
-| Key      | Format                          |
-|----------|---------------------------------|
+| Key      | Format                         |
+|----------|--------------------------------|
 | `server` | List of [DNS Server](./server/) |
 | `rules`  | List of [DNS Rule](./rule/)     |
 | `fakeip` | [FakeIP](./fakeip/)             |
@@ -69,10 +60,6 @@ Stores a reverse mapping of IP addresses after responding to a DNS query in orde
 Since this process relies on the act of resolving domain names by an application before making a request, it can be
 problematic in environments such as macOS, where DNS is proxied and cached by the system.
 
-#### client_subnet
+#### fakeip
 
-!!! question "Since sing-box 1.9.0"
-
-Append a `edns0-subnet` OPT extra record with the specified IP address to every query by default.
-
-Can be overrides by `servers.[].client_subnet` or `rules.[].client_subnet`.
+[FakeIP](./fakeip/) settings.

@@ -1,3 +1,7 @@
+---
+icon: material/new-box
+---
+
 # Source Format
 
 !!! question "Since sing-box 1.8.0"

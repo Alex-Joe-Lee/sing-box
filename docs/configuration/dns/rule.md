@@ -1,14 +1,6 @@
 ---
-icon: material/new-box
+icon: material/alert-decagram
 ---
-
-!!! quote "Changes in sing-box 1.9.0"
-
-    :material-plus: [geoip](#geoip)  
-    :material-plus: [ip_cidr](#ip_cidr)  
-    :material-plus: [ip_is_private](#ip_is_private)  
-    :material-plus: [client_subnet](#client_subnet)
-    :material-plus: [rule_set_ipcidr_match_source](#rule_set_ipcidr_match_source)
 
 !!! quote "Changes in sing-box 1.8.0"
 
@@ -61,19 +53,11 @@ icon: material/new-box
         "source_geoip": [
           "private"
         ],
-        "geoip": [
-          "cn"
-        ],
         "source_ip_cidr": [
           "10.0.0.0/24",
           "192.168.0.1"
         ],
         "source_ip_is_private": false,
-        "ip_cidr": [
-          "10.0.0.0/24",
-          "192.168.0.1"
-        ],
-        "ip_is_private": false,
         "source_port": [
           12345
         ],
@@ -117,15 +101,13 @@ icon: material/new-box
           "geoip-cn",
           "geosite-cn"
         ],
-        "rule_set_ipcidr_match_source": false,
         "invert": false,
         "outbound": [
           "direct"
         ],
         "server": "local",
         "disable_cache": false,
-        "rewrite_ttl": 100,
-        "client_subnet": "127.0.0.1"
+        "rewrite_ttl": 100
       },
       {
         "type": "logical",
@@ -133,8 +115,7 @@ icon: material/new-box
         "rules": [],
         "server": "local",
         "disable_cache": false,
-        "rewrite_ttl": 100,
-        "client_subnet": "127.0.0.1"
+        "rewrite_ttl": 100
       }
     ]
   }
@@ -285,9 +266,11 @@ Match Clash mode.
 
 #### wifi_ssid
 
+<!-- md:version 1.7.0-beta.4 -->
+
 !!! quote ""
 
-    Only supported in graphical clients on Android and Apple platforms.
+    Only supported in graphical clients on Android and iOS.
 
 Match WiFi SSID.
 
@@ -295,7 +278,7 @@ Match WiFi SSID.
 
 !!! quote ""
 
-    Only supported in graphical clients on Android and Apple platforms.
+    Only supported in graphical clients on Android and iOS.
 
 Match WiFi BSSID.
 
@@ -304,12 +287,6 @@ Match WiFi BSSID.
 !!! question "Since sing-box 1.8.0"
 
 Match [Rule Set](/configuration/route/#rule_set).
-
-#### rule_set_ipcidr_match_source
-
-!!! question "Since sing-box 1.9.0"
-
-Make `ipcidr` in rule sets match the source IP.
 
 #### invert
 
@@ -334,44 +311,6 @@ Disable cache and save cache in this query.
 #### rewrite_ttl
 
 Rewrite TTL in DNS responses.
-
-#### client_subnet
-
-!!! question "Since sing-box 1.9.0"
-
-Append a `edns0-subnet` OPT extra record with the specified IP address to every query by default.
-
-Will overrides `dns.client_subnet` and `servers.[].client_subnet`.
-
-### Address Filter Fields
-
-Only takes effect for IP address requests. When the query results do not match the address filtering rule items, the current rule will be skipped.
-
-!!! info ""
-
-    `ip_cidr` items in included rule sets also takes effect as an address filtering field.
-
-!!! note ""
-
-    Enable `experimental.cache_file.store_rdrc` to cache results.
-
-#### geoip
-
-!!! question "Since sing-box 1.9.0"
-
-Match GeoIP with query response.
-
-#### ip_cidr
-
-!!! question "Since sing-box 1.9.0"
-
-Match IP CIDR with query response.
-
-#### ip_is_private
-
-!!! question "Since sing-box 1.9.0"
-
-Match private IP with query response.
 
 ### Logical Fields
 

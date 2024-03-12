@@ -4,7 +4,6 @@ import (
 	"strings"
 
 	"github.com/sagernet/sing-box/adapter"
-	"github.com/sagernet/sing/common"
 	E "github.com/sagernet/sing/common/exceptions"
 	F "github.com/sagernet/sing/common/format"
 )
@@ -14,7 +13,7 @@ var _ RuleItem = (*RuleSetItem)(nil)
 type RuleSetItem struct {
 	router            adapter.Router
 	tagList           []string
-	setList           []adapter.RuleSet
+	setList           []adapter.HeadlessRule
 	ipcidrMatchSource bool
 }
 
@@ -45,12 +44,6 @@ func (r *RuleSetItem) Match(metadata *adapter.InboundContext) bool {
 		}
 	}
 	return false
-}
-
-func (r *RuleSetItem) ContainsIPCIDRRule() bool {
-	return common.Any(r.setList, func(ruleSet adapter.RuleSet) bool {
-		return ruleSet.Metadata().ContainsIPCIDRRule
-	})
 }
 
 func (r *RuleSetItem) String() string {

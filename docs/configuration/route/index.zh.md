@@ -1,3 +1,7 @@
+---
+icon: material/alert-decagram
+---
+
 # 路由
 
 !!! quote "sing-box 1.8.0 中的更改"

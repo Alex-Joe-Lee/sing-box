@@ -3,9 +3,9 @@
 package inbound
 
 import (
-	"github.com/Alex-Joe-Lee/sing-quic"
 	"github.com/sagernet/quic-go"
 	"github.com/sagernet/quic-go/http3"
+	"github.com/sagernet/sing-quic"
 	E "github.com/sagernet/sing/common/exceptions"
 )
 

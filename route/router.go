@@ -8,7 +8,6 @@ import (
 	"net/url"
 	"os"
 	"os/user"
-	"runtime"
 	"strings"
 	"time"
 
@@ -43,7 +42,6 @@ import (
 	serviceNTP "github.com/sagernet/sing/common/ntp"
 	"github.com/sagernet/sing/common/task"
 	"github.com/sagernet/sing/common/uot"
-	"github.com/sagernet/sing/common/winpowrprof"
 	"github.com/sagernet/sing/service"
 	"github.com/sagernet/sing/service/pause"
 )
@@ -70,7 +68,6 @@ type Router struct {
 	geositeCache                       map[string]adapter.Rule
 	needFindProcess                    bool
 	dnsClient                          *dns.Client
-	dnsIndependentCache                bool
 	defaultDomainStrategy              dns.DomainStrategy
 	dnsRules                           []adapter.DNSRule
 	ruleSets                           []adapter.RuleSet
@@ -88,7 +85,6 @@ type Router struct {
 	networkMonitor                     tun.NetworkUpdateMonitor
 	interfaceMonitor                   tun.DefaultInterfaceMonitor
 	packageManager                     tun.PackageManager
-	powerListener                      winpowrprof.EventListener
 	processSearcher                    process.Searcher
 	timeService                        *ntp.Service
 	pauseManager                       pause.Manager
@@ -124,7 +120,6 @@ func NewRouter(
 		geositeOptions:        common.PtrValueOrDefault(options.Geosite),
 		geositeCache:          make(map[string]adapter.Rule),
 		needFindProcess:       hasRule(options.Rules, isProcessRule) || hasDNSRule(dnsOptions.Rules, isProcessDNSRule) || options.FindProcess,
-		dnsIndependentCache:   dnsOptions.IndependentCache,
 		defaultDetour:         options.Final,
 		defaultDomainStrategy: dns.DomainStrategy(dnsOptions.Strategy),
 		autoDetectInterface:   options.AutoDetectInterface,
@@ -141,17 +136,7 @@ func NewRouter(
 		DisableCache:     dnsOptions.DNSClientOptions.DisableCache,
 		DisableExpire:    dnsOptions.DNSClientOptions.DisableExpire,
 		IndependentCache: dnsOptions.DNSClientOptions.IndependentCache,
-		RDRC: func() dns.RDRCStore {
-			cacheFile := service.FromContext[adapter.CacheFile](ctx)
-			if cacheFile == nil {
-				return nil
-			}
-			if !cacheFile.StoreRDRC() {
-				return nil
-			}
-			return cacheFile
-		},
-		Logger: router.dnsLogger,
+		Logger:           router.dnsLogger,
 	})
 	for i, ruleOptions := range options.Rules {
 		routeRule, err := NewRule(router, router.logger, ruleOptions, true)
@@ -237,20 +222,7 @@ func NewRouter(
 					return nil, E.New("parse dns server[", tag, "]: missing address_resolver")
 				}
 			}
-			var clientSubnet netip.Addr
-			if server.ClientSubnet != nil {
-				clientSubnet = server.ClientSubnet.Build()
-			} else if dnsOptions.ClientSubnet != nil {
-				clientSubnet = dnsOptions.ClientSubnet.Build()
-			}
-			transport, err := dns.CreateTransport(dns.TransportOptions{
-				Context:      ctx,
-				Logger:       logFactory.NewLogger(F.ToString("dns/transport[", tag, "]")),
-				Name:         tag,
-				Dialer:       detour,
-				Address:      server.Address,
-				ClientSubnet: clientSubnet,
-			})
+			transport, err := dns.CreateTransport(tag, ctx, logFactory.NewLogger(F.ToString("dns/transport[", tag, "]")), detour, server.Address)
 			if err != nil {
 				return nil, E.Cause(err, "parse dns server[", tag, "]")
 			}
@@ -290,12 +262,7 @@ func NewRouter(
 	}
 	if defaultTransport == nil {
 		if len(transports) == 0 {
-			transports = append(transports, common.Must1(dns.CreateTransport(dns.TransportOptions{
-				Context: ctx,
-				Name:    "local",
-				Address: "local",
-				Dialer:  common.Must1(dialer.NewDefault(router, option.DialerOptions{})),
-			})))
+			transports = append(transports, dns.NewLocalTransport("local", N.SystemDialer))
 		}
 		defaultTransport = transports[0]
 	}
@@ -352,14 +319,6 @@ func NewRouter(
 		interfaceMonitor := platformInterface.CreateDefaultInterfaceMonitor(router.logger)
 		interfaceMonitor.RegisterCallback(router.notifyNetworkUpdate)
 		router.interfaceMonitor = interfaceMonitor
-	}
-
-	if runtime.GOOS == "windows" {
-		powerListener, err := winpowrprof.NewEventListener(router.notifyWindowsPowerEvent)
-		if err != nil {
-			return nil, E.Cause(err, "initialize power listener")
-		}
-		router.powerListener = powerListener
 	}
 
 	if ntpOptions.Enabled {
@@ -601,16 +560,6 @@ func (r *Router) Start() error {
 			}
 		}
 	}
-
-	if r.powerListener != nil {
-		monitor.Start("start power listener")
-		err := r.powerListener.Start()
-		monitor.Finish()
-		if err != nil {
-			return E.Cause(err, "start power listener")
-		}
-	}
-
 	if (needWIFIStateFromRuleSet || r.needWIFIState) && r.platformInterface != nil {
 		monitor.Start("initialize WIFI state")
 		r.needWIFIState = true
@@ -629,11 +578,6 @@ func (r *Router) Start() error {
 			return E.Cause(err, "initialize rule[", i, "]")
 		}
 	}
-
-	monitor.Start("initialize DNS client")
-	r.dnsClient.Start()
-	monitor.Finish()
-
 	for i, rule := range r.dnsRules {
 		monitor.Start("initialize DNS rule[", i, "]")
 		err := rule.Start()
@@ -710,13 +654,6 @@ func (r *Router) Close() error {
 		monitor.Start("close package manager")
 		err = E.Append(err, r.packageManager.Close(), func(err error) error {
 			return E.Cause(err, "close package manager")
-		})
-		monitor.Finish()
-	}
-	if r.powerListener != nil {
-		monitor.Start("close power listener")
-		err = E.Append(err, r.powerListener.Close(), func(err error) error {
-			return E.Cause(err, "close power listener")
 		})
 		monitor.Finish()
 	}
@@ -1250,21 +1187,5 @@ func (r *Router) updateWIFIState() {
 		} else {
 			r.logger.Info("updated WIFI state: SSID=", state.SSID, ", BSSID=", state.BSSID)
 		}
-	}
-}
-
-func (r *Router) notifyWindowsPowerEvent(event int) {
-	switch event {
-	case winpowrprof.EVENT_SUSPEND:
-		r.pauseManager.DevicePause()
-		_ = r.ResetNetwork()
-	case winpowrprof.EVENT_RESUME:
-		if !r.pauseManager.IsDevicePaused() {
-			return
-		}
-		fallthrough
-	case winpowrprof.EVENT_RESUME_AUTOMATIC:
-		r.pauseManager.DeviceWake()
-		_ = r.ResetNetwork()
 	}
 }

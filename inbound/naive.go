@@ -15,6 +15,7 @@ import (
 	"github.com/sagernet/sing-box/common/tls"
 	"github.com/sagernet/sing-box/common/uot"
 	C "github.com/sagernet/sing-box/constant"
+	"github.com/sagernet/sing-box/include"
 	"github.com/sagernet/sing-box/log"
 	"github.com/sagernet/sing-box/option"
 	"github.com/sagernet/sing/common"
@@ -108,8 +109,8 @@ func (n *Naive) Start() error {
 
 	if common.Contains(n.network, N.NetworkUDP) {
 		err := n.configureHTTP3Listener()
-		if !C.WithQUIC && len(n.network) > 1 {
-			n.logger.Warn(E.Cause(err, "naive http3 disabled"))
+		if !include.WithQUIC && len(n.network) > 1 {
+			log.Warn(E.Cause(err, "naive http3 disabled"))
 		} else if err != nil {
 			return err
 		}

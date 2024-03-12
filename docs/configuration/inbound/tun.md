@@ -1,11 +1,6 @@
 ---
-icon: material/new-box
+icon: material/alert-decagram
 ---
-
-!!! quote "Changes in sing-box 1.9.0"
-
-    :material-plus: [platform.http_proxy.bypass_domain](#platformhttp_proxybypass_domain)  
-    :material-plus: [platform.http_proxy.match_domain](#platformhttp_proxymatch_domain)  
 
 !!! quote "Changes in sing-box 1.8.0"
 
@@ -78,9 +73,7 @@ icon: material/new-box
     "http_proxy": {
       "enabled": false,
       "server": "127.0.0.1",
-      "server_port": 8080,
-      "bypass_domain": [],
-      "match_domain": []
+      "server_port": 8080
     }
   },
   
@@ -266,38 +259,6 @@ Platform-specific settings, provided by client applications.
 #### platform.http_proxy
 
 System HTTP proxy settings.
-
-#### platform.http_proxy.enabled
-
-Enable system HTTP proxy.
-
-#### platform.http_proxy.server
-
-==Required==
-
-HTTP proxy server address.
-
-#### platform.http_proxy.server_port
-
-==Required==
-
-HTTP proxy server port.
-
-#### platform.http_proxy.bypass_domain
-
-!!! note ""
-
-    On Apple platforms, `bypass_domain` items matches hostname **suffixes**.
-
-Hostnames that bypass the HTTP proxy.
-
-#### platform.http_proxy.match_domain
-
-!!! quote ""
-
-    Only supported in graphical clients on Apple platforms.
-
-Hostnames that use the HTTP proxy.
 
 ### Listen Fields
 

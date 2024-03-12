@@ -89,34 +89,34 @@ func (c *CacheFile) FakeIPStore(address netip.Addr, domain string) error {
 }
 
 func (c *CacheFile) FakeIPStoreAsync(address netip.Addr, domain string, logger logger.Logger) {
-	c.saveFakeIPAccess.Lock()
+	c.saveAccess.Lock()
 	c.saveDomain[address] = domain
 	if address.Is4() {
 		c.saveAddress4[domain] = address
 	} else {
 		c.saveAddress6[domain] = address
 	}
-	c.saveFakeIPAccess.Unlock()
+	c.saveAccess.Unlock()
 	go func() {
 		err := c.FakeIPStore(address, domain)
 		if err != nil {
-			logger.Warn("save FakeIP cache: ", err)
+			logger.Warn("save FakeIP address pair: ", err)
 		}
-		c.saveFakeIPAccess.Lock()
+		c.saveAccess.Lock()
 		delete(c.saveDomain, address)
 		if address.Is4() {
 			delete(c.saveAddress4, domain)
 		} else {
 			delete(c.saveAddress6, domain)
 		}
-		c.saveFakeIPAccess.Unlock()
+		c.saveAccess.Unlock()
 	}()
 }
 
 func (c *CacheFile) FakeIPLoad(address netip.Addr) (string, bool) {
-	c.saveFakeIPAccess.RLock()
+	c.saveAccess.RLock()
 	cachedDomain, cached := c.saveDomain[address]
-	c.saveFakeIPAccess.RUnlock()
+	c.saveAccess.RUnlock()
 	if cached {
 		return cachedDomain, true
 	}
@@ -137,13 +137,13 @@ func (c *CacheFile) FakeIPLoadDomain(domain string, isIPv6 bool) (netip.Addr, bo
 		cachedAddress netip.Addr
 		cached        bool
 	)
-	c.saveFakeIPAccess.RLock()
+	c.saveAccess.RLock()
 	if !isIPv6 {
 		cachedAddress, cached = c.saveAddress4[domain]
 	} else {
 		cachedAddress, cached = c.saveAddress6[domain]
 	}
-	c.saveFakeIPAccess.RUnlock()
+	c.saveAccess.RUnlock()
 	if cached {
 		return cachedAddress, true
 	}

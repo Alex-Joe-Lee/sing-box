@@ -7,7 +7,6 @@ import (
 
 	"github.com/sagernet/sing-box/common/humanize"
 	C "github.com/sagernet/sing-box/constant"
-	_ "github.com/sagernet/sing-box/include"
 )
 
 var (
