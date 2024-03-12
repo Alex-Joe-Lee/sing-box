@@ -1,5 +1,7 @@
 berty.tech/go-libtor v1.0.385 h1:RWK94C3hZj6Z2GdvePpHJLnWYobFr3bY/OdUJ5aoEXw=
 berty.tech/go-libtor v1.0.385/go.mod h1:9swOOQVb+kmvuAlsgWUK/4c52pm69AdbJsxLzk+fJEw=
+github.com/Alex-Joe-Lee/sing-quic v0.2.2 h1:GrEKTi45xqebgZ3bXNAtUs8EBi1+KCk755YqYBKNN0Y=
+github.com/Alex-Joe-Lee/sing-quic v0.2.2/go.mod h1:BizUJAKYEa46bN8GJ6fqHkVpcrQ/RVFfklLOucLjRwI=
 github.com/ajg/form v1.5.1 h1:t9c7v8JUKu/XxOGBU0yjNpaMloxGEJhUkqFRq0ibGeU=
 github.com/ajg/form v1.5.1/go.mod h1:uL1WgH+h2mgNtvBq0339dVnzXdBETtL2LeUXaIv25UY=
 github.com/andybalholm/brotli v1.0.6 h1:Yf9fFpf49Zrxb9NlQaluyE92/+X7UVHlhMNJN2sxfOI=
@@ -104,8 +106,8 @@ github.com/sagernet/gvisor v0.0.0-20231209105102-8d27a30e436e h1:DOkjByVeAR56dks
 github.com/sagernet/gvisor v0.0.0-20231209105102-8d27a30e436e/go.mod h1:fLxq/gtp0qzkaEwywlRRiGmjOK5ES/xUzyIKIFP2Asw=
 github.com/sagernet/netlink v0.0.0-20220905062125-8043b4a9aa97 h1:iL5gZI3uFp0X6EslacyapiRz7LLSJyr4RajF/BhMVyE=
 github.com/sagernet/netlink v0.0.0-20220905062125-8043b4a9aa97/go.mod h1:xLnfdiJbSp8rNqYEdIW/6eDO4mVoogml14Bh2hSiFpM=
-github.com/sagernet/quic-go v0.40.1 h1:qLeTIJR0d0JWRmDWo346nLsVN6EWihd1kalJYPEd0TM=
-github.com/sagernet/quic-go v0.40.1/go.mod h1:CcKTpzTAISxrM4PA5M20/wYuz9Tj6Tx4DwGbNl9UQrU=
+github.com/sagernet/quic-go v0.41.0-beta.2 h1:NtFC1Ief+SYJkfRq68D1OEqZQTNh2jYSpyRLhjT+m6U=
+github.com/sagernet/quic-go v0.41.0-beta.2/go.mod h1:X10Mf9DVHuSEReOLov/XuflD13MVLH3WtppVVFnSItU=
 github.com/sagernet/reality v0.0.0-20230406110435-ee17307e7691 h1:5Th31OC6yj8byLGkEnIYp6grlXfo1QYUfiYFGjewIdc=
 github.com/sagernet/reality v0.0.0-20230406110435-ee17307e7691/go.mod h1:B8lp4WkQ1PwNnrVMM6KyuFR20pU8jYBD+A4EhJovEXU=
 github.com/sagernet/sing v0.2.18/go.mod h1:OL6k2F0vHmEzXz2KW19qQzu172FDgSbUSODylighuVo=
@@ -115,8 +117,6 @@ github.com/sagernet/sing-dns v0.1.12 h1:1HqZ+ln+Rezx/aJMStaS0d7oPeX2EobSV1NT537k
 github.com/sagernet/sing-dns v0.1.12/go.mod h1:rx/DTOisneQpCgNQ4jbFU/JNEtnz0lYcHXenlVzpjEU=
 github.com/sagernet/sing-mux v0.2.0 h1:4C+vd8HztJCWNYfufvgL49xaOoOHXty2+EAjnzN3IYo=
 github.com/sagernet/sing-mux v0.2.0/go.mod h1:khzr9AOPocLa+g53dBplwNDz4gdsyx/YM3swtAhlkHQ=
-github.com/sagernet/sing-quic v0.1.8 h1:G4iBXAKIII+uTzd55oZ/9cAQswGjlvHh/0yKMQioDS0=
-github.com/sagernet/sing-quic v0.1.8/go.mod h1:2w7DZXtf4MPjIGpovA3+vpI6bvOf1n1f9cQ1E2qQJSg=
 github.com/sagernet/sing-shadowsocks v0.2.6 h1:xr7ylAS/q1cQYS8oxKKajhuQcchd5VJJ4K4UZrrpp0s=
 github.com/sagernet/sing-shadowsocks v0.2.6/go.mod h1:j2YZBIpWIuElPFL/5sJAj470bcn/3QQ5lxZUNKLDNAM=
 github.com/sagernet/sing-shadowsocks2 v0.2.0 h1:wpZNs6wKnR7mh1wV9OHwOyUr21VkS3wKFHi+8XwgADg=
@@ -170,8 +170,8 @@ golang.org/x/crypto v0.0.0-20190404164418-38d8ce5564a5/go.mod h1:WFFai1msRO1wXaE
 golang.org/x/crypto v0.0.0-20210513164829-c07d793c2f9a/go.mod h1:P+XmwS30IXTQdn5tA2iutPOUgjI07+tq3H3K9MVA1s8=
 golang.org/x/crypto v0.20.0 h1:jmAMJJZXr5KiCw05dfYK9QnqaqKLYXijU23lsEdcQqg=
 golang.org/x/crypto v0.20.0/go.mod h1:Xwo95rrVNIoSMx9wa1JroENMToLWn3RNVrTBpLHgZPQ=
-golang.org/x/exp v0.0.0-20240119083558-1b970713d09a h1:Q8/wZp0KX97QFTc2ywcOE0YRjZPVIx+MXInMzdvQqcA=
-golang.org/x/exp v0.0.0-20240119083558-1b970713d09a/go.mod h1:idGWGoKP1toJGkd5/ig9ZLuPcZBC3ewk7SzmH0uou08=
+golang.org/x/exp v0.0.0-20240205201215-2c58cdc269a3 h1:/RIbNt/Zr7rVhIkQhooTxCxFcdWLGIKnZA4IXNFSrvo=
+golang.org/x/exp v0.0.0-20240205201215-2c58cdc269a3/go.mod h1:idGWGoKP1toJGkd5/ig9ZLuPcZBC3ewk7SzmH0uou08=
 golang.org/x/mod v0.14.0 h1:dGoOF9QVLYng8IHTm7BAyWqCqSheQ5pYWGhzW00YJr0=
 golang.org/x/mod v0.14.0/go.mod h1:hTbmBsO62+eylJbnUtE2MGJUyE7QWk4xUqPFrRgJ+7c=
 golang.org/x/net v0.0.0-20210226172049-e18ecbb05110/go.mod h1:m0MpNAwzfU5UDzcl9v0D8zg8gWTRqZa9RBIspLL5mdg=

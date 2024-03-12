@@ -4,9 +4,9 @@ import (
 	"net/netip"
 	"testing"
 
+	"github.com/Alex-Joe-Lee/sing-quic/hysteria2"
 	C "github.com/sagernet/sing-box/constant"
 	"github.com/sagernet/sing-box/option"
-	"github.com/sagernet/sing-quic/hysteria2"
 )
 
 func TestHysteria2Self(t *testing.T) {
