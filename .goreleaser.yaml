@@ -130,8 +130,8 @@ signs:
   - artifacts: checksum
 release:
   github:
-    owner: SagerNet
+    owner: Alex_Joe_Lee
     name: sing-box
   name_template: '{{ if .IsSnapshot }}{{ nightly }}{{ else }}{{ .Version }}{{ end }}'
-  draft: true
+  draft: false
   mode: replace
